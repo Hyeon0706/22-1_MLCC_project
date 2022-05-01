@@ -15,21 +15,33 @@ def contour(src):
     Green = (0,200,0) # 녹색(전체)
     Red = (0,0,200) # 붉은색(전극)
     
+    size=[]
+    
     for cnt in contours_all:
         if cv2.contourArea(cnt)>10000: # 잘못 설정되는 값을 제외하기 위해 면적이 10000보다 크면 사각형 그림
             x, y, width, height = cv2.boundingRect(cnt)
             cv2.rectangle(target_img, (x, y), (x + width, y + height), Green, 2) # 전체 사각형 그리기
             print(cv2.contourArea(cnt)) # 검출된 면적 출력
+            size.append(cv2.contourArea(cnt))
+            if cv2.contourArea(cnt) < 19245 or cv2.contourArea(cnt) > 21542:
+                print('error in all')
+                return 1
+            else:
+                print('no error in all')
         
     for cnt in contours_electrode:
         if cv2.contourArea(cnt)>3000:
             x, y, width, height = cv2.boundingRect(cnt)
             cv2.rectangle(target_img, (x, y), (x + width, y + height), Red, 2) # 전극 사각형 그리기
             print(cv2.contourArea(cnt)) # 검출된 면적 출력
+            size.append(cv2.contourArea(cnt))
+            if cv2.contourArea(cnt) < 3086 or cv2.contourArea(cnt) > 3978:
+                print('error in electrode')
+                return 1
+            else:
+                print('no error in electrode')
+    print(size)
 
-    cv2.imshow('contour',target_img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    
-img=cv2.imread('D:\MLCC_Image\P052012235019(NSW528)\/001-1.tif')
-contour(img)
+    if len(size) != 3:
+        print('error')
+        return 1
