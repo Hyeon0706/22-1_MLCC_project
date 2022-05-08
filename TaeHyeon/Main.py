@@ -43,9 +43,9 @@ img_files = glob.glob('D:\MLCC_Image\P052012235019(NSW528)/*tif') # glob 라이�
 # 각 위젯별 형태
 label=tkinter.Label(window, image=img_path)
 result=tkinter.Label(window, text="오류 개수 : " + str(cnt),bg='gray')
-check_size=tkinter.Label(window, text="크기 검사대기",bg='gray')
-check_color=tkinter.Label(window, text="이물질 검사대기",bg='gray')
-check_line=tkinter.Label(window, text="라인 검사대기",bg='gray')
+check_size=tkinter.Label(window, text="크기 검사",bg='gray')
+check_color=tkinter.Label(window, text="이물질 검사",bg='gray')
+check_line=tkinter.Label(window, text="라인 검사",bg='gray')
 b_back=tkinter.Button(window,text='이전')
 b_next=tkinter.Button(window,text='다음',command=next_click)
 
