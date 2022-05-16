@@ -4,7 +4,6 @@ from PIL import Image
 from PIL import ImageTk
 import Contour # Contour.py 를 import 하여 contour()함수를 사용
 import glob
-import time
 
 cnt=0
 page=-1

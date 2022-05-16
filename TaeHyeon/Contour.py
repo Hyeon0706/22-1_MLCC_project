@@ -5,7 +5,7 @@ def contour(src):
 
     gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
     ret, electrode = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY) # 전극만 흰색으로 이진화
-    ret, all = cv2.threshold(gray, -1, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU) # 전체를 흰색으로 이진화
+    ret, all = cv2.threshold(gray, 70, 255, cv2.THRESH_BINARY) # 전체를 흰색으로 이진화
 
     contours_all, hierarchy = cv2.findContours(all, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) # 전체 윤곽선 검출
     contours_electrode, hierarchy = cv2.findContours(electrode, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE) # 전극 윤곽선 검출
@@ -23,7 +23,7 @@ def contour(src):
             cv2.rectangle(target_img, (x, y), (x + width, y + height), Green, 2) # 전체 사각형 그리기
             print(cv2.contourArea(cnt)) # 검출된 면적 출력
             size.append(cv2.contourArea(cnt))
-            if cv2.contourArea(cnt) < 19245 or cv2.contourArea(cnt) > 21542:
+            if cv2.contourArea(cnt) < 19100 or cv2.contourArea(cnt) > 21750:
                 print('error in all')
                 return 1
             else:
