@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
-#001-1.tif로만 테스트가 잘됨.. 앞으로 수정예정
 
-def loadRightEle(src) : #오른쪽전극
+
+def sliceEle1(src) : #전극1
     target_img = src.copy()
 
     gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
@@ -39,7 +39,7 @@ def loadRightEle(src) : #오른쪽전극
 
 
 
-def loadLeftEle(src) : #왼쪽전극
+def sliceEle2(src) : #전극2
     target_img = src.copy()
 
     gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
