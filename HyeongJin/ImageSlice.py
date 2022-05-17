@@ -26,7 +26,6 @@ slice1 = cv2.resize(slice1, dsize=(200, 488), interpolation=cv2.INTER_AREA)
 slice2 = cv2.resize(slice2, dsize=(200, 488), interpolation=cv2.INTER_AREA)
 slice3 = cv2.resize(slice3, dsize=(200, 488), interpolation=cv2.INTER_AREA)
 slice4 = cv2.resize(slice4, dsize=(200, 488), interpolation=cv2.INTER_AREA)
-
 #이미지모양값 구하기
 height, width, colorsss = slice1.shape
 
@@ -60,7 +59,8 @@ for iii in range(len(phjblue)):
 
 print("변경된 count값은 : ")
 print(count)            
-'''        
+'''
+
 
     
 
@@ -78,24 +78,56 @@ greencount = 0;
 redcount = 0;
 for iii in range(len(slice1)):
     for jjj in range(len(slice1[iii])):
-        if slice1[iii][jjj][0] > 250:
+        if slice1[iii][jjj][0] > 254:
             bluecount += 1
-        if slice1[iii][jjj][1] > 250:
+        if slice1[iii][jjj][1] > 254:
             greencount += 1
-        if slice1[iii][jjj][2] > 250:
+        if slice1[iii][jjj][2] > 254:
             redcount += 1
             
-
-print("변경된 bluecount값은 : ")
+print("총픽셀 수는 : ")
+print(slice1.size/3)            
+print("bluecount값은 : ")
 print(bluecount)            
-print("변경된 greencount값은 : ")
+print("greencount값은 : ")
 print(greencount)            
-print("변경된 redcount값은 : ")
+print("redcount값은 : ")
 print(redcount)            
 
-#print(phjgreen)
-#print(phjred)
 
+#밝기검출 함수
+def check_color(side_perfection, middle_perfection, left_side, right_side, middle_side):
+    result = True
+    left_redcount = 0
+    right_redcount = 0
+    middle_redcount = 0
+    side_perfection = (100 - side_perfection)
+    middle_perfection = (100 - middle_perfection)
+    for iii in range(len(left_side)):
+        for jjj in range(len(left_side[iii])):
+            if left_side[iii][jjj][2] > 254:
+                left_redcount += 1
+        
+    for iii in range(len(right_side)):
+        for jjj in range(len(right_side[iii])):
+            if right_side[iii][jjj][2] > 254:
+                right_redcount += 1
+    
+    for iii in range(len(middle_side)):
+        for jjj in range(len(middle_side[iii])):
+            if middle_side[iii][jjj][2] > 254:
+                middle_redcount += 1        
+                                    
+    if (((left_side.size /3) / left_redcount) / 100 >= side_perfection) or (((right_side.size /3) / right_redcount) / 100 >= side_perfection):
+        result = False
+    
+    if (((middle_side.size /3) / middle_redcount) / 100 >= middle_perfection):
+        result = False
+       
+    return result
+ 
+    
+# or (((middle_side.size /3) / middle_redcount) / 100 >= perfection)
 
 '''
 p = img[80, 80, 2]
@@ -145,7 +177,7 @@ for (p, c) in zip(bgr_planes, colors):
 
 '''
     
-'''
+
 #화면에 출력
 cv2.imshow("img", img)
 cv2.imshow("slice1", slice1)
@@ -153,7 +185,7 @@ cv2.imshow("slice2", slice2)
 cv2.imshow("img2", img2)
 cv2.imshow("slice3", slice3)
 cv2.imshow("slice4", slice4)
-'''
+
 plt.show()
 
 
