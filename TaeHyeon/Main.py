@@ -3,18 +3,24 @@ import cv2
 from PIL import Image
 from PIL import ImageTk
 import Contour # Contour.py 를 import 하여 contour()함수를 사용
+import getElectrode as ge
 import glob
 
 cnt=0
 page=-1
 img_path=''
+cut_img=[]
 
 def next_click(): # 다음 버튼
     global page
     global img_path
+    global cut_img
     page+=1 # 다음 이미지를 로드하기 위해 page+=1
     check_size.config(bg='blue')
     src = cv2.imread(img_files[page])
+    cut_img.append(ge.get_electrode1(src))
+    cut_img.append(ge.get_electrode2(src))
+    print(cut_img)
     print(img_files[page])
     img=cv2.cvtColor(src,cv2.COLOR_BGR2RGB)
     img=Image.fromarray(img)
