@@ -3,7 +3,7 @@ import cv2
 from PIL import Image
 from PIL import ImageTk
 import Contour
-import getElectrode as ge
+import sliceImg as si # 이미지 영역 설정
 import ImageSlice as Is
 import glob
 
@@ -19,9 +19,7 @@ def next_click(): # 다음 버튼
     page+=1 # 다음 이미지를 로드하기 위해 page+=1
     check_size.config(bg='blue')
     src = cv2.imread(img_files[page])
-    cut_img.append(ge.get_electrode1(src))
-    cut_img.append(ge.get_electrode2(src))
-    print(Is.check_color(0,0,cut_img[0],cut_img[1],cut_img[1]))
+    si.get_sliceImg(src) # 로드한 이미지 파일을 이미지 영역 설정 함수로 넘김
     print(img_files[page])
     img=cv2.cvtColor(src,cv2.COLOR_BGR2RGB)
     img=Image.fromarray(img)
@@ -37,8 +35,7 @@ def back_click(): # 이전 버튼
     page-=1
     check_size.config(bg='blue')
     src = cv2.imread(img_files[page])
-    cut_img.append(ge.get_electrode1(src))
-    cut_img.append(ge.get_electrode2(src))
+    si.get_sliceImg(src) # 로드한 이미지 파일을 이미지 영역 설정 함수로 넘김
     print(img_files[page])
     img=cv2.cvtColor(src,cv2.COLOR_BGR2RGB)
     img=Image.fromarray(img)
@@ -54,9 +51,7 @@ def auto_click(): # 자동 버튼
     for i in range(page,len(img_files)):
         page+=1
         src = cv2.imread(img_files[i])
-        cut_img.append(ge.get_electrode1(src))
-        cut_img.append(ge.get_electrode2(src))
-        print(Is.check_color(0,0,cut_img[0],cut_img[1],cut_img[1]))
+        si.get_sliceImg(src) # 로드한 이미지 파일을 이미지 영역 설정 함수로 넘김
         print(img_files[i])
         img=cv2.cvtColor(src,cv2.COLOR_BGR2RGB)
         img=Image.fromarray(img)
