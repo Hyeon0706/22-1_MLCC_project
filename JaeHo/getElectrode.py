@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 def get_electrode1(image_origin):
-    margin = 10  # 원하는 margin
+    margin = -8  # 원하는 margin
     image_copy = image_origin.copy()
     imgray = cv2.cvtColor(image_copy, cv2.COLOR_BGR2GRAY)
     ret, thr = cv2.threshold(imgray, 127, 255, cv2.THRESH_BINARY)
@@ -29,7 +29,7 @@ def get_electrode1(image_origin):
     return slice1
 
 def get_electrode2(image_origin):
-    margin = 10  # 원하는 margin
+    margin = -8  # 원하는 margin
     image_copy = image_origin.copy()
     imgray = cv2.cvtColor(image_copy, cv2.COLOR_BGR2GRAY)
     ret, thr = cv2.threshold(imgray, 127, 255, cv2.THRESH_BINARY)
@@ -55,12 +55,13 @@ def get_electrode2(image_origin):
     return slice2
 
 #테스트 용.
-#img = cv2.imread('001-4.tif')
+img = cv2.imread('C:\/finalProject\JaeHo\/160-3.tif')
 
-#cv2.imshow('image1', get_electrode1(img))
-#cv2.imshow('image2', get_electrode2(img))
-#cv2.waitKey(0)
-#cv2.destroyAllWindows()
+
+cv2.imshow('image1', get_electrode1(img))
+cv2.imshow('image2', get_electrode2(img))
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 
 
