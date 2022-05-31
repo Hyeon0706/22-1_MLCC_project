@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 import sys  
 import numpy as np
 import PIL
+import time
 
 #밝기검출 함수
+start = time.time()
 def check_color(side_perfection, middle_perfection, left_side, right_side, middle_side):
     result = True
     left_redcount = 0
@@ -34,10 +36,11 @@ def check_color(side_perfection, middle_perfection, left_side, right_side, middl
     
     if (((middle_side.size /3) / middle_redcount) / 100 >= middle_perfection):
         result = False
-       
+    print(left_redcount)
+    print(right_redcount)      
+    print(time.time()-start)
     return result
- 
-    
+
 # or (((middle_side.size /3) / middle_redcount) / 100 >= perfection)
 
 '''

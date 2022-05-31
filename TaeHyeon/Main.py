@@ -2,7 +2,7 @@ import tkinter
 import cv2
 from PIL import Image
 from PIL import ImageTk
-import Contour # Contour.py 를 import 하여 contour()함수를 사용
+import Contour
 import getElectrode as ge
 import ImageSlice as Is
 import glob
@@ -56,6 +56,7 @@ def auto_click(): # 자동 버튼
         src = cv2.imread(img_files[i])
         cut_img.append(ge.get_electrode1(src))
         cut_img.append(ge.get_electrode2(src))
+        print(Is.check_color(0,0,cut_img[0],cut_img[1],cut_img[1]))
         print(img_files[i])
         img=cv2.cvtColor(src,cv2.COLOR_BGR2RGB)
         img=Image.fromarray(img)
