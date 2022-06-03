@@ -2,19 +2,23 @@ import tkinter
 import cv2
 from PIL import Image
 from PIL import ImageTk
-import Contour # Contour.py 를 import 하여 contour()함수를 사용
+import Contour
+import sliceImg as si # 이미지 영역 설정
 import glob
 
 cnt=0
 page=-1
 img_path=''
+cut_img=[]
 
 def next_click(): # 다음 버튼
     global page
     global img_path
+    global cut_img
     page+=1 # 다음 이미지를 로드하기 위해 page+=1
     check_size.config(bg='blue')
     src = cv2.imread(img_files[page])
+    si.get_sliceImg(src) # 로드한 이미지 파일을 이미지 영역 설정 함수로 넘김
     print(img_files[page])
     img=cv2.cvtColor(src,cv2.COLOR_BGR2RGB)
     img=Image.fromarray(img)
@@ -30,6 +34,7 @@ def back_click(): # 이전 버튼
     page-=1
     check_size.config(bg='blue')
     src = cv2.imread(img_files[page])
+    si.get_sliceImg(src) # 로드한 이미지 파일을 이미지 영역 설정 함수로 넘김
     print(img_files[page])
     img=cv2.cvtColor(src,cv2.COLOR_BGR2RGB)
     img=Image.fromarray(img)
@@ -45,6 +50,7 @@ def auto_click(): # 자동 버튼
     for i in range(page,len(img_files)):
         page+=1
         src = cv2.imread(img_files[i])
+        si.get_sliceImg(src) # 로드한 이미지 파일을 이미지 영역 설정 함수로 넘김
         print(img_files[i])
         img=cv2.cvtColor(src,cv2.COLOR_BGR2RGB)
         img=Image.fromarray(img)
