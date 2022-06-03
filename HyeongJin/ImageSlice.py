@@ -55,14 +55,17 @@ start2 = time.perf_counter()
 #pxgray = np.array(gray)
 pxgray = np.array(gray)
 pxgray = pxgray.reshape(-1)
-for ttt in pxgray:
+'''for ttt in pxgray:
     if pxgray[ttt] != 0:
         count1 += 1        
+'''
+
+
 finish2 = time.perf_counter()    
 
 print(finish2 - start2)
 print("넘퓌 : ")
-print(count1)
+print(sum(pxgray))
 
 
 start1 = time.perf_counter()
@@ -93,7 +96,47 @@ print(finish1 - start1)
 print("빨간색 픽셀수는 : ")
 print(redcount)
 
-
+def check_color(left_side, right_side, middle_side):
+    result = True
+    left_count = 0
+    right_count = 0
+    middle_count = 0
+    th = 250    #이진화 임계값
+    px = 1000    # 픽셀수 한계값
+    
+    
+    left_gray = cv2.cvtColor(left_side, cv2.COLOR_BGR2GRAY)
+    right_gray = cv2.cvtColor(right_side, cv2.COLOR_BGR2GRAY)
+    middle_gray = cv2.cvtColor(middle_side, cv2.COLOR_BGR2GRAY)
+    
+    left_gray = cv2.inRange(left_gray, th, 255)
+    right_gray = cv2.inRange(right_gray, th, 255)
+    middle_gray = cv2.inRange(middle_gray, th, 255)
+    
+    
+    for iii in range(len(left_gray)):
+        for jjj in range(len(left_gray[iii])):
+            if left_gray[iii][jjj] != 0:
+                left_count += 1
+        
+    for iii in range(len(right_gray)):
+        for jjj in range(len(right_gray[iii])):
+            if right_gray[iii][jjj] != 0:
+                right_count += 1
+                
+    for iii in range(len(middle_gray)):
+        for jjj in range(len(middle_gray[iii])):
+            if middle_gray[iii][jjj] != 0:
+                middle_count += 1       
+                                    
+    if (left_count >= px) or (right_count >= px):
+        result = False
+    
+    if (middle_count >= 0):
+        result = False
+       
+    return result
+'''
 
 
 
@@ -102,7 +145,6 @@ print(redcount)
 '''    
 #카운트 인트형
 count = 0;
-#영상의 픽셀 값 구하기?씌발제발되라
  
 #phjblue = slice1[:, :, 0]
 phjblue = slice1[:, :, 2]
@@ -159,7 +201,7 @@ print(redcount)
 
 
 #밝기검출 함수
-def check_color(side_perfection, middle_perfection, left_side, right_side, middle_side):
+def check_color1(side_perfection, middle_perfection, left_side, right_side, middle_side):
     result = True
     left_redcount = 0
     right_redcount = 0
@@ -196,7 +238,7 @@ def check_color(side_perfection, middle_perfection, left_side, right_side, middl
 p = img[80, 80, 2]
     
 
-#실패작 시발
+#실패작
 for j in range(height):
 
     for i in range(width):
@@ -213,7 +255,6 @@ for j in range(height):
     
     
 '''
-각영상의 히스토그램 예제
 bgr_planes = cv2.split(slice1)
 
 for (p, c) in zip(bgr_planes, colors):
@@ -240,7 +281,7 @@ for (p, c) in zip(bgr_planes, colors):
 
 '''
     
-
+'''
 '''
 #화면에 출력
 cv2.imshow("img", img)
