@@ -5,11 +5,12 @@ import matplotlib.pyplot as plt
 import sys  
 import numpy as np
 import PIL
+import time
 
 
 #이미지 읽어오기
-img = cv2.imread("C:\PythonImage\sample.tif")
-img2 = cv2.imread("C:\PythonImage\sample3.tif")  
+img = cv2.imread("C:\PythonDocuments\sample1.tif")
+img2 = cv2.imread("C:\PythonDocuments\sample1.tif")  
 if img is None:
     sys.exit("Could not read the image.")
 #불량품 이미지
@@ -26,17 +27,77 @@ slice1 = cv2.resize(slice1, dsize=(200, 488), interpolation=cv2.INTER_AREA)
 slice2 = cv2.resize(slice2, dsize=(200, 488), interpolation=cv2.INTER_AREA)
 slice3 = cv2.resize(slice3, dsize=(200, 488), interpolation=cv2.INTER_AREA)
 slice4 = cv2.resize(slice4, dsize=(200, 488), interpolation=cv2.INTER_AREA)
+'''
 #이미지모양값 구하기
 height, width, colorsss = slice1.shape
-
 
 #컬러영상의 히스토그램으로 표시
 colors = ['b', 'g', 'r']
 bgr_planes = cv2.split(slice1)
 
 for (p, c) in zip(bgr_planes, colors):
-    hist = cv2.calcHist([p], [0], None, [256], [0, 256])
+    hist = cv2.calcHist([p], [0], None, [256], [0, 256])s
     plt.plot(hist, color=c)
+'''
+#흑백영상으로
+gray = cv2.cvtColor(slice1, cv2.COLOR_BGR2GRAY)
+
+height, width = gray.shape
+th = 250
+
+gray = cv2.inRange(gray, th, 255)
+
+
+count = 0
+count1 = 0
+
+start2 = time.perf_counter()
+#pxgray = np.array(gray)
+pxgray = np.array(gray)
+pxgray = pxgray.reshape(-1)
+for ttt in pxgray:
+    if pxgray[ttt] != 0:
+        count1 += 1        
+finish2 = time.perf_counter()    
+
+print(finish2 - start2)
+print("넘퓌 : ")
+print(count1)
+
+
+start1 = time.perf_counter()
+for iii in range(len(gray)):
+    for jjj in range(len(gray[iii])):
+        if gray[iii][jjj] != 0:
+            count += 1
+finish1 = time.perf_counter()
+
+print("걸린시간 : ")
+print(finish1 - start1)
+print("이진화 픽셀수는 : ")
+print(count)
+
+redcount = 0
+#phjred = slice1[:, :, 2]
+
+phjred = slice1
+start1 = time.perf_counter()
+for ii in range(len(phjred)):
+    for jj in range(len(phjred[ii])):
+        if phjred[ii][jj][2] > 254:
+            redcount += 1
+finish1 = time.perf_counter()
+
+print("기존의 시간 : ")
+print(finish1 - start1)            
+print("빨간색 픽셀수는 : ")
+print(redcount)
+
+
+
+
+
+
 
 '''    
 #카운트 인트형
@@ -65,13 +126,15 @@ print(count)
     
 
 
-#영상의 픽셀 값 구하기?씌발제발되라
+#영상의 픽셀 값 구하기
  
 '''
 phjblue = slice1[:, :, 0] 
 phjgreen = slice1[:, :, 1] 
 phjred = slice1[:, :, 2] 
 '''
+'''
+#너무 오래걸려서 이진화 후 픽셀 검사로 방식 바꿈
 #카운트 인트형
 bluecount = 0;
 greencount = 0;
@@ -125,7 +188,7 @@ def check_color(side_perfection, middle_perfection, left_side, right_side, middl
         result = False
        
     return result
- 
+''' 
     
 # or (((middle_side.size /3) / middle_redcount) / 100 >= perfection)
 
@@ -178,6 +241,7 @@ for (p, c) in zip(bgr_planes, colors):
 '''
     
 
+'''
 #화면에 출력
 cv2.imshow("img", img)
 cv2.imshow("slice1", slice1)
@@ -185,7 +249,9 @@ cv2.imshow("slice2", slice2)
 cv2.imshow("img2", img2)
 cv2.imshow("slice3", slice3)
 cv2.imshow("slice4", slice4)
-
+'''
+cv2.imshow("slice1", slice1)
+cv2.imshow('after', gray)
 plt.show()
 
 
