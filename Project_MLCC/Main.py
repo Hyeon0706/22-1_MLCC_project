@@ -4,6 +4,7 @@ from PIL import Image
 from PIL import ImageTk
 import Contour
 import sliceImg as si # 이미지 영역 설정
+import checkBright as cb # 이미지 밝기 검사
 import glob
 
 cnt=0
@@ -18,7 +19,6 @@ def next_click(): # 다음 버튼
     page+=1 # 다음 이미지를 로드하기 위해 page+=1
     check_size.config(bg='blue')
     src = cv2.imread(img_files[page])
-    si.get_sliceImg(src) # 로드한 이미지 파일을 이미지 영역 설정 함수로 넘김
     print(img_files[page])
     img=cv2.cvtColor(src,cv2.COLOR_BGR2RGB)
     img=Image.fromarray(img)
@@ -26,8 +26,10 @@ def next_click(): # 다음 버튼
     print(imgtk)
     img_path = imgtk
     label.config(image=imgtk)
-    scan_size(src)
-    
+    if scan_size(src)==0:
+        e1, e2, body = si.get_sliceImg(src) # 로드한 이미지 파일을 이미지 영역 설정 함수로 넘김
+        cb.check_color(e1,e2,body)
+        
 def back_click(): # 이전 버튼
     global page
     global img_path
@@ -71,6 +73,8 @@ def scan_size(src): # 사이즈 검사
         return 1
     else:
         check_size.config(bg='blue') # 크기검사 영역 파란색
+        return 0
+    
 window=tkinter.Tk()
 window.title('MLCC Scanner') # 윈도우 이름
 window.geometry('840x350+100+100') # 윈도우 사이즈

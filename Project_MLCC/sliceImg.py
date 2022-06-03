@@ -51,5 +51,8 @@ def get_sliceImg(image_origin):
 
     # slice1 = cv2.resize(crop_images[0], dsize=(200, 488), interpolation=cv2.INTER_AREA) #전극 크기 조절해서 자르기.
     # slice2 = cv2.resize(crop_images[1], dsize=(200, 488), interpolation=cv2.INTER_AREA)
+    cv2.imshow('e1',crop_images[0])
+    cv2.imshow('e2',crop_images[1])
+    cv2.imshow('body',body_image[0])
     
     return crop_images[0], crop_images[1], body_image[0]
