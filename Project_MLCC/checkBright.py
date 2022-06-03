@@ -38,9 +38,6 @@ def check_color(left_side, right_side, middle_side):
     
     if (middle_count >= 0):
         result = False
-<<<<<<< HEAD
-       
-=======
+
     print('result : ',result)
->>>>>>> TaeHyeon
     return result
