@@ -1,42 +1,37 @@
 import cv2
+import numpy as np
 
 def check_color(left_side, right_side, middle_side):
-    result = True
-    left_count = 0
-    right_count = 0
-    middle_count = 0
-    th = 250    #이진화 임계값
-    px = 1000    # 픽셀수 한계값
+    result = 1
+    th = 90          #이진화 임계값
+    thb = 170    
+    side_px = 3060  # 픽셀수 한계값
+    body_px = 2550 
     
     
     left_gray = cv2.cvtColor(left_side, cv2.COLOR_BGR2GRAY)
     right_gray = cv2.cvtColor(right_side, cv2.COLOR_BGR2GRAY)
     middle_gray = cv2.cvtColor(middle_side, cv2.COLOR_BGR2GRAY)
     
-    left_gray = cv2.inRange(left_gray, th, 255)
-    right_gray = cv2.inRange(right_gray, th, 255)
-    middle_gray = cv2.inRange(middle_gray, th, 255)
+    ret, bin1 = cv2.threshold(left_gray,th,255,cv2.THRESH_BINARY_INV)
+    #cv2.imshow('win',bin1)
+
+    ret, bin2 = cv2.threshold(right_gray,th,255,cv2.THRESH_BINARY_INV)
+    #cv2.imshow('win2',bin2)
+
+    ret, bin3 = cv2.threshold(middle_gray,thb,255,cv2.THRESH_BINARY)
+    #cv2.imshow('win3',bin3)
+    count1 = np.sum(bin1)
+    count2 = np.sum(bin2)
+    count3 = np.sum(bin3)
     
+    # if count1 < count2 :
+    #     count1 = count2
     
-    for iii in range(len(left_gray)):
-        for jjj in range(len(left_gray[iii])):
-            if left_gray[iii][jjj] != 0:
-                left_count += 1
-        
-    for iii in range(len(right_gray)):
-        for jjj in range(len(right_gray[iii])):
-            if right_gray[iii][jjj] != 0:
-                right_count += 1
-                
-    for iii in range(len(middle_gray)):
-        for jjj in range(len(middle_gray[iii])):
-            if middle_gray[iii][jjj] != 0:
-                middle_count += 1       
-                                    
-    if (left_count >= px) or (right_count >= px):
-        result = False
+    if count1 > side_px  or count2 > side_px:
+        print('error in electrode brightness')
+        return 1
     
-    if (middle_count >= 0):
-        result = False
-    print('result : ',result)
-    return result
+    if count3 > body_px :
+        print('error in body brightness')
+        return 1
