@@ -1,5 +1,4 @@
 import cv2
-import os
 def contour(src):
     target_img = src.copy() # 사본 이미지
 
@@ -21,7 +20,7 @@ def contour(src):
         if cv2.contourArea(cnt)>10000: # 잘못 설정되는 값을 제외하기 위해 면적이 10000보다 크면 사각형 그림
             x, y, width, height = cv2.boundingRect(cnt)
             cv2.rectangle(target_img, (x, y), (x + width, y + height), Green, 2) # 전체 사각형 그리기
-            print(cv2.contourArea(cnt)) # 검출된 면적 출력
+            # print(cv2.contourArea(cnt)) # 검출된 면적 출력
             size.append(cv2.contourArea(cnt))
             if cv2.contourArea(cnt) < 19100 or cv2.contourArea(cnt) > 21750:
                 print('error in all')
@@ -33,14 +32,14 @@ def contour(src):
         if cv2.contourArea(cnt)>3000:
             x, y, width, height = cv2.boundingRect(cnt)
             cv2.rectangle(target_img, (x, y), (x + width, y + height), Red, 2) # 전극 사각형 그리기
-            print(cv2.contourArea(cnt)) # 검출된 면적 출력
+            # print(cv2.contourArea(cnt)) # 검출된 면적 출력
             size.append(cv2.contourArea(cnt))
             if cv2.contourArea(cnt) < 3086 or cv2.contourArea(cnt) > 3978:
                 print('error in electrode')
                 return 1
             else:
                 print('no error in electrode')
-    print(size)
+    # print(size)
 
     if len(size) != 3:
         print('error')

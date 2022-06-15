@@ -1,5 +1,4 @@
 import cv2
-import numpy as np
 
 def get_sliceImg(image_origin):
     margin_electrode = -8

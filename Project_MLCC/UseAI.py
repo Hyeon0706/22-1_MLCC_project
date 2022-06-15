@@ -1,7 +1,6 @@
 import tensorflow as tf
 import cv2
 import numpy as np
-import os
 
 def checkAi(src):
     test_img=[]
@@ -24,7 +23,7 @@ def checkAi(src):
 
     test_img = test_img.reshape(test_img.shape[0],test_img.shape[1]*test_img.shape[2])
 
-    loaded_model = tf.keras.models.load_model('TaeHyeon\model_2.h5')
+    loaded_model = tf.keras.models.load_model('Project_MLCC\model_2.h5')
 
     pred = loaded_model.predict(test_img)
     if pred[0][0] > pred[0][1]:

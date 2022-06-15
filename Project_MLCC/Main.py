@@ -2,7 +2,7 @@ import tkinter
 import cv2
 from PIL import Image
 from PIL import ImageTk
-import Contour
+import checkSize as cs
 import sliceImg as si # 이미지 영역 설정
 import UseAI as ua # AI
 import checkBright as cb # 밝기 검사
@@ -16,11 +16,13 @@ page=-1
 img_path=''
 cut_img=[]
 is_on = False
+cnt=0
 
 def next_click(): # 다음 버튼
     global page
     global img_path
     global cut_img
+    global cnt
     page+=1 # 다음 이미지를 로드하기 위해 page+=1
     check_size.config(bg='blue')
     src = cv2.imread(img_files[page])
@@ -41,6 +43,8 @@ def next_click(): # 다음 버튼
         ai_state = ua.checkAi(src)
     if size_state == 1 or ai_state == 0 or bright_state == 1:
         res = 'error'
+        cnt+=1
+        result.configure(text='불량 개수 : ' + str(cnt))
     else:
         res = 'normal'
     time = now.strftime('%Y-%m-%d %H:%M:%S') +'  ' + img_files[page] + '  ' + res
@@ -78,6 +82,7 @@ def back_click(): # 이전 버튼
 def auto_click(): # 자동 버튼
     global page
     global img_path
+    global cnt
     for i in range(page,len(img_files)):
         page+=1
         p_var.set(i)
@@ -100,12 +105,14 @@ def auto_click(): # 자동 버튼
         if size_state == 1 or ai_state == 0 or bright_state == 1:
             time = now.strftime('%Y-%m-%d %H:%M:%S') +'  ' + img_files[page-1] + '  ' + 'error'
             list.insert(tkinter.END, time)
+            cnt+=1
+            result.configure(text='불량 개수 : ' + str(cnt))
         else:
             time = now.strftime('%Y-%m-%d %H:%M:%S') +'  ' + img_files[page-1] + '  ' + 'normal'
             list.insert(tkinter.END, time)
     
 def scan_size(src): # 사이즈 검사
-    error = Contour.contour(src)
+    error = cs.contour(src)
     if error : # 만약 에러가 검출되면
         check_size.config(bg='red') # 크기검사 영역 붉은색
         return 1
@@ -158,8 +165,8 @@ window.resizable(0, 0) # 크기조절 => False,0이면 사이즈 조절 불가
 filename = filedialog.askdirectory()
 print(filename)
 
-on = tkinter.PhotoImage(file = "TaeHyeon\on.png")
-off = tkinter.PhotoImage(file = "TaeHyeon\off.png")
+on = tkinter.PhotoImage(file = "Project_MLCC\on.png")
+off = tkinter.PhotoImage(file = "Project_MLCC\off.png")
 
 img_files = glob.glob(filename + '/*tif') # glob 라이브러리 이용해서 이미지 여러장 로드
 
@@ -169,6 +176,7 @@ check_size=tkinter.Label(window, text="크기 검사",bg='gray')
 check_color=tkinter.Label(window, text="밝기 검사",bg='gray')
 check_AI=tkinter.Label(window, text="AI 검사",bg='gray')
 filepath=tkinter.Label(window, text="파일 경로 : " + filename,bg='white')
+result=tkinter.Label(window, text="불량 개수 : 0",bg='white')
 b_back=tkinter.Button(window,text='이전',command=back_click)
 b_next=tkinter.Button(window,text='다음',command=next_click)
 b_auto=tkinter.Button(window,text='자동 검사',command=auto_click)
@@ -192,7 +200,8 @@ label.place(x=0,y=0)
 check_size.place(x=650,y=10,width=180,height=70)
 check_color.place(x=650,y=90,width=180,height=70)
 check_AI.place(x=650,y=170,width=80,height=70)
-filepath.place(x=0,y=250,width=640,height=40)
+filepath.place(x=0,y=250,width=500,height=40)
+result.place(x=510,y=250,width=130,height=40)
 b_back.place(x=650,y=250,width=85,height=40)
 b_next.place(x=745,y=250,width=85,height=40)
 b_auto.place(x=650,y=300,width=180,height=40)

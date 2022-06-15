@@ -1,7 +1,7 @@
 import glob
 import cv2
-# img_files = glob.glob('D:\MLCC_Image\MLCC_img/*tif') # 정상 이미지 경로
-img_files = glob.glob('D:\MLCC_Image\errorimg/*tif') # 불량 이미지 경로
+img_files = glob.glob('D:\MLCC_Image\P052012235019(NSW528)\error_mlcc/*tif') # 정상 이미지 경로
+# img_files = glob.glob('D:\MLCC_Image\errorimg/*tif') # 불량 이미지 경로
 
 i=1
 for path in img_files:
@@ -28,13 +28,13 @@ for path in img_files:
     fb = cv2.flip(dst, -1)
             
     
-    cv2.imwrite('D:\MLCC_Image\/new_error\gray-%d.jpg'%i,dst)
-    cv2.imwrite('D:\MLCC_Image\/new_error\/flip1-%d.jpg'%i,fh)
-    cv2.imwrite('D:\MLCC_Image\/new_error\/flip2-%d.jpg'%i,fv)
-    cv2.imwrite('D:\MLCC_Image\/new_error\/flip3-%d.jpg'%i,fb)
+    # cv2.imwrite('D:\MLCC_Image\/new_error\gray-%d.jpg'%i,dst)
+    # cv2.imwrite('D:\MLCC_Image\P052012235019(NSW528)\/train_normal/flip1-%d.jpg'%i,fh)
+    # cv2.imwrite('D:\MLCC_Image\P052012235019(NSW528)\/train_normal/flip2-%d.jpg'%i,fv)
+    # cv2.imwrite('D:\MLCC_Image\P052012235019(NSW528)\/train_normal/flip3-%d.jpg'%i,fb)
     
     # cv2.imwrite('D:\MLCC_Image\/new_normal\gray-%d.jpg'%i,dst)
-    # cv2.imwrite('D:\MLCC_Image\/new_normal\/flip1-%d.jpg'%i,fh)
-    # cv2.imwrite('D:\MLCC_Image\/new_normal\/flip2-%d.jpg'%i,fv)
-    # cv2.imwrite('D:\MLCC_Image\/new_normal\/flip3-%d.jpg'%i,fb)
+    cv2.imwrite('D:\MLCC_Image\P052012235019(NSW528)\/train_error/flip1-%d.jpg'%i,fh)
+    cv2.imwrite('D:\MLCC_Image\P052012235019(NSW528)\/train_error/flip2-%d.jpg'%i,fv)
+    cv2.imwrite('D:\MLCC_Image\P052012235019(NSW528)\/train_error/flip3-%d.jpg'%i,fb)
     i+=1

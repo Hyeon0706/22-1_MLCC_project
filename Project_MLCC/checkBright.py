@@ -14,13 +14,9 @@ def check_color(left_side, right_side, middle_side):
     middle_gray = cv2.cvtColor(middle_side, cv2.COLOR_BGR2GRAY)
     
     ret, bin1 = cv2.threshold(left_gray,th,255,cv2.THRESH_BINARY_INV)
-    #cv2.imshow('win',bin1)
-
     ret, bin2 = cv2.threshold(right_gray,th,255,cv2.THRESH_BINARY_INV)
-    #cv2.imshow('win2',bin2)
-
     ret, bin3 = cv2.threshold(middle_gray,thb,255,cv2.THRESH_BINARY)
-    #cv2.imshow('win3',bin3)
+
     count1 = np.sum(bin1)
     count2 = np.sum(bin2)
     count3 = np.sum(bin3)
